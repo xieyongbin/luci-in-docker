@@ -7,7 +7,7 @@ COPY src /tmp/
 #sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
 #sed -i -e '/^http:\/\/.*\/main/h' -e'$G' -e '${s|\(^http://.*/\)main|\1testing|}' /etc/apk/repositories && \
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && apk update && \
-    apk add git cmake make gcc libc-dev json-c-dev lua5.1 lua5.1-dev openssl-dev linux-headers && \
+    apk add git cmake make gcc libc-dev json-c-dev lua5.3 openssl-dev linux-headers && \
     # libubox
     cd /tmp && git clone --depth=1 https://git.openwrt.org/project/libubox.git && \
     cd /tmp/libubox && \
@@ -90,9 +90,8 @@ COPY --from=compile_stage /tmp/internal $INTERNAL_PLUGIN_DIR/000luci/
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories && \
     apk --no-cache update && \
-    apk --no-cache add lua5.1 json-c libgcc tzdata ca-certificates tini && \
+    apk --no-cache add lua5.3 json-c libgcc tzdata ca-certificates tini && \
     mkdir -p $INTERNAL_PLUGIN_DIR $PLUGIN_DIR $CONFIG_DIR/config && \
-    ln -s /usr/lib/liblua.so.5 /usr/lib/liblua.so.5.1.5 && \
     ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
     chmod +x /init.sh
 
